@@ -30,18 +30,15 @@ def retweets(api, id):
     tweets = api.retweets(id)
     return tweets
 
-def json_str(tweets):
-    result = json.dumps([tweet._json for tweet in tweets])
-    return result
+def to_json(tweets):
+        with open("retweets.json", "w") as write_file:
+            json.dump([tweet._json for tweet in tweets], write_file)
 
 # need to integrate click, or some other way of passing these API keys (conda?)
 def main():
     api = perform_auth(consumerkey, consumersecret, accesstoken, accesstokensecret)
     tweets = retweets(api, tweetid)
-    json_to_dump = json_str(tweets)
-
-    with open("tweets.json", "w") as write_file:
-        json.dump(json_to_dump, write_file)
+    to_json(tweets)
 
 if __name__ == "__main__":
     main()
