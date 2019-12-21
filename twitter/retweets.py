@@ -72,14 +72,18 @@ def construct_custom_json_object(tweet_json):
 
 
 def to_json(tweets):
+    data = []
     for tweet in tweets:
         tweet_json = tweet._json
         formatted_tweet_json = construct_custom_json_object(tweet_json)
 
-        with open("retweets-formatted.json", "w") as write_file:
-            json.dump(formatted_tweet_json, write_file)
+        data.append(formatted_tweet_json)
+
+    with open("retweets-formatted.json", "w") as write_file:
+        json.dump(data, write_file)
 
 # need to integrate click, or some other way of passing these API keys (conda?)
+# dec 15: next --> test on tweet with multiple retweets, filter by keywords in description
 def main():
     api = perform_auth(consumerkey, consumersecret, accesstoken, accesstokensecret)
     tweets = retweets(api, tweetid)
